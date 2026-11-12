@@ -440,17 +440,24 @@ function inlineMC(el, qs, onDone, opt = {}) {
 
 // ============================================================ VOCABOLARIO INTEGRATO
 let dictF = { q: "", level: "Tutti", topic: "Tutti" };
+function dictFiltered() {
+  const q = norm(dictF.q);
+  return VOCAB.filter(v => (dictF.level === "Tutti" || v.level === dictF.level) && (dictF.topic === "Tutti" || v.topic === dictF.topic) &&
+    (!q || norm(v.de + " " + v.it + " " + v.note).includes(q)));
+}
+const WRITE_TOPIC = "Verben zum Schreiben";
 function dictionary(openId) {
   const topics = ["Tutti", ...new Set(VOCAB.map(v => v.topic))];
-  const q = norm(dictF.q);
-  const res = VOCAB.filter(v => (dictF.level === "Tutti" || v.level === dictF.level) && (dictF.topic === "Tutti" || v.topic === dictF.topic) &&
-    (!q || norm(v.de + " " + v.it + " " + v.note).includes(q)));
+  const res = dictFiltered();
+  const scope = dictF.topic !== "Tutti" ? dictF.topic : dictF.level !== "Tutti" ? "livello " + dictF.level : "tutte le parole";
   const saved = new Set(S.custom.map(w => w.de));
   view("Vocabolario", `
     <div class="card"><div class="search"><input class="answer" id="q" placeholder="Cerca in tedesco o in italiano…" value="${esc(dictF.q)}" autocomplete="off">${ic("search")}</div>
       <div class="filters">${["Tutti", "B1", "B2"].map(l => `<button class="fchip ${dictF.level === l ? "on" : ""}" data-l="${l}">${l === "Tutti" ? "Tutti i livelli" : l}</button>`).join("")}</div>
       <select class="answer" id="topic">${topics.map(t => `<option ${t === dictF.topic ? "selected" : ""}>${t}</option>`).join("")}</select>
-      <div class="row" style="margin-top:12px"><span class="tag">${res.length} voci</span><span class="spacer"></span><button class="btn soft" id="ai">${ic("sparkles")} Cerca con l'IA</button><button class="btn ghost" data-go="flash/dict">${ic("layers")} Studia</button></div></div>
+      <div class="row" style="margin-top:12px"><span class="tag">${res.length} voci</span><span class="spacer"></span><button class="btn soft" id="ai">${ic("sparkles")} Cerca con l'IA</button></div>
+      ${res.length ? `<div class="row" style="margin-top:10px"><button class="btn" data-go="flash/dict">${ic("layers")} Flashcard: ${esc(scope)} (${Math.min(res.length, 40)})</button>${res.length >= 4 ? `<button class="btn ghost" data-go="quiz/dict">${ic("checksq")} Test</button>` : ""}</div>` : ""}</div>
+    ${dictF.topic === "Tutti" && !dictF.q ? `<div class="card" style="cursor:pointer" id="wsec"><div class="row"><span class="chip" style="--c:#ff9f0a">${ic("pen")}</span><div><b>Verbi per scrivere un buon testo</b><br><small class="muted">${VOCAB.filter(v => v.topic === WRITE_TOPIC).length} verbi per e-mail, Forumsbeitrag e argomentazione · Schreiben B1/B2</small></div><span class="spacer"></span>${ic("right")}</div></div>` : dictF.topic === WRITE_TOPIC ? `<div class="card flat"><p class="muted" style="margin:0">Usa questi verbi al posto di <i>sagen, machen, finden</i>: rendono il testo più preciso e alzano il punteggio in <b>Wortschatz</b>. Ognuno ha l'esempio in una frase da esame.</p></div>` : ""}
     <div id="aires"></div>
     <div class="card">${res.map(v => `
       <details class="entry" ${String(v.id) === openId ? "open" : ""} id="e${v.id}"><summary><span class="t"><b>${esc(v.de)}</b><small>${esc(v.it)} · ${esc(v.gr)}</small></span><span class="badge">${v.level}</span>${sayBtn(v.de)}</summary>
@@ -461,6 +468,7 @@ function dictionary(openId) {
   qi.onkeydown = e => { if (e.key === "Enter" && !res.length) aiLookup(qi.value); };
   $app.querySelectorAll("[data-l]").forEach(b => b.onclick = () => { dictF.level = b.dataset.l; dictionary(); });
   $("topic").onchange = e => { dictF.topic = e.target.value; dictionary(); };
+  if ($("wsec")) $("wsec").onclick = () => { dictF.topic = WRITE_TOPIC; dictF.level = "Tutti"; dictionary(); window.scrollTo(0, 0); };
   $("ai").onclick = () => aiLookup($("q").value);
   $app.querySelectorAll("[data-add]").forEach(b => b.onclick = e => { e.stopPropagation(); const v = VOCAB[b.dataset.add]; S.custom.push({ de: v.de, it: v.it }); save(); toast("Salvata nel tuo mazzo."); b.outerHTML = `<span class="badge ok">${ic("check")} Nel tuo mazzo</span>`; });
   if (openId) { const e = $("e" + openId); if (e) e.scrollIntoView({ block: "center" }); }
@@ -501,7 +509,7 @@ function practice() {
 }
 function vocabFor(id) {
   if (id === "mie") return S.custom.slice();
-  if (id === "dict") return VOCAB.filter(v => v.level === S.level).map(v => ({ de: v.de, it: v.it }));
+  if (id === "dict") return shuffle(dictFiltered()).slice(0, 40).map(v => ({ de: v.de, it: v.it }));
   const l = LESSONS.find(x => x.id === id); if (l) return l.vocab.map(([de, it]) => ({ de, it }));
   const pool = allVocab().filter(w => w.level === S.level || w.lesson === "mie");
   const due = dueWords().filter(w => pool.some(p => p.de === w.de));
