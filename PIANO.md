@@ -1,36 +1,26 @@
-# Deutsch mit Bea – Architettura e piano
+# Deutsch mit Bea · v4
 
-Per **Bea, 25 anni, livello B1 → B2** (obiettivo: Goethe-Zertifikat B1 e B2).
+App web installabile (PWA) per preparare il Goethe-Zertifikat B1 e B2. Link: https://mattiazanaga94.github.io/deutsch-mit-bea/
 
-## Piattaforma: PWA (web app installabile), non .exe
-- Un'unica app per Windows (Edge/Chrome → "Installa app") e iPhone/iPad (Safari → Condividi → "Aggiungi a Home").
-- Voce tedesca: sintesi vocale del sistema. Microfono: Web Speech API (Edge/Chrome, Safari iOS).
-- Progressi salvati sul dispositivo. Funziona offline, tranne le funzioni IA.
-- Per microfono e installazione serve un hosting HTTPS (GitHub Pages, gratis).
+## Contenuti
+- Lezioni: grammatica B1/B2 completa, comunicazione, Landeskunde (storia, Bundesländer, Austria/Svizzera, politica, Goethe/Schiller, feste, economia, vita in Germania), con lettura ad alta voce e domande.
+- Vocabolario integrato: 238 voci B1–B2 con grammatica, traduzione, nota, esempio tradotto; filtri per livello e tema; ricerca IA per qualsiasi parola.
+- Esercizi: flashcard con ripasso a intervalli, quiz, memory, ascolto, pronuncia, dialoghi.
+- Dettato: parole, frasi, 10 testi, testi IA; frase per frase, lento, punteggiatura dettata, correzione parola per parola.
+- Tutor IA (Gemini): conversazione, giochi di ruolo, esame orale, avvocato del diavolo, e-mail formali, grammatica; correzioni in ogni risposta.
+- Allenamento IA: lezioni su misura, letture, ascolti a più voci, grammatica, lessico, scrittura valutata, ripasso errori.
+- Simulazioni Goethe B1/B2: esame completo, per modulo, per singola parte; cronometro ufficiale, ascolti limitati, valutazione Schreiben/Sprechen secondo i criteri, storico risultati.
+- Motivazione: punti giornalieri, obiettivo, serie con protezioni, forziere, 15 livelli, 16 traguardi, temi colore sbloccabili.
 
-## Intelligenza artificiale: Google Gemini (piano gratuito)
-- Chiave gratuita: https://aistudio.google.com/apikey → incollarla in "Tutor IA".
-- `gemini-3.5-flash-lite` (circa 500 richieste al giorno) per conversazione ed esercizi.
-- `gemini-3.8-flash` (circa 20 al giorno) solo per valutare i testi scritti; se la quota finisce, si passa in automatico al modello lite.
-- Sul piano gratuito Google può usare i dati per migliorare i modelli. La chiave resta solo sul dispositivo.
+## Offline / online
+Offline: lezioni, vocabolario, esercizi, dettati, progressi. Online: tutto ciò che usa Gemini (tutor, IA, simulazioni).
 
-## Cosa contiene (v3)
-| Modulo | Contenuto |
-|---|---|
-| Lezioni B1 (6) | Perfekt/Präteritum, frasi secondarie, Akk/Dat e Wechselpräpositionen, verbi separabili/riflessivi, comparativi, vita quotidiana e uffici |
-| Lezioni B2 (16) | Konjunktiv II, Passiv, Konnektoren, Redemittel per discutere, presentazione, e-mail formale, Nomen-Verb-Verbindungen, verbi con preposizione, relative, declinazione aggettivi, Konjunktiv I, nominalizzazione, participi, preposizioni col genitivo, infinitive e modali soggettivi, espressioni idiomatiche |
-| Vocabolario | Flashcard con voce e ripasso a intervalli, test, gioco delle coppie, dettato, pronuncia col microfono, mazzo personale |
-| Ascolto | Frasi B2 in stile giornalistico, ascolto lento |
-| Dialoghi guidati | Colloquio di lavoro, discussione d'esame, reclamo telefonico (registro formale "Sie") |
-| Tutor IA "Frau Dr. Keller" | Conversazione a voce, presentazione d'esame, discussione d'esame, correzione dei testi; ogni errore viene spiegato in italiano e salvato |
-| Allenamento IA | Lesen, Hören, grammatica (18 argomenti), Schreiben con voto, vocabolario per tema (14 temi), ripasso dei propri errori: esercizi sempre nuovi |
-| Simulazione d'esame | Lesen, Hören (testo ascoltabile solo 2 volte), Schreiben con voto secondo i criteri Goethe, storico dei risultati |
-| Motivazione | XP, giorni consecutivi, obiettivo giornaliero, livelli, citazioni, lodi a voce |
+## Installazione
+- Windows/Mac (Chrome o Edge): icona "Installa" nella barra dell'indirizzo.
+- iPhone/iPad (Safari): Condividi → Aggiungi a schermata Home.
+- Mac (Safari): File → Aggiungi al Dock.
 
-## Prossime fasi
-1. **Pubblicazione** su GitHub Pages: serve un repository.
-2. **Sprechen con voto**: valutazione automatica della presentazione orale (trascrizione + criteri Goethe).
-3. **Voce più naturale** con Gemini TTS (anche dialoghi a più voci per l'Hören).
-4. **Programma di studio**: piano settimanale fino alla data dell'esame, promemoria, report dei progressi.
-5. **Contenuti**: Lesen e Hören in tutte le parti dell'esame (Teil 1–5), banca di 2000+ parole B1/B2.
-6. **Sincronizzazione** tra PC e iPhone (backup dei progressi).
+## Note
+- Chiave Gemini: si inserisce in Impostazioni, resta solo sul dispositivo, non viene inclusa nel backup.
+- I progressi sono salvati nel browser: usare "Esporta backup" periodicamente.
+- Riconoscimento vocale: migliore in Chrome/Edge; su iPhone funziona in Safari (iOS 14.5+).

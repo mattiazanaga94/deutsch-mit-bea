@@ -4,22 +4,40 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Deutsch mit Bea</title>
+<meta name="description" content="Preparazione Goethe-Zertifikat B1 e B2 con tutor IA">
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#1f3a5f">
+<meta name="theme-color" content="#0b1020">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Deutsch">
-<link rel="apple-touch-icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" href="icon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
-  <button id="back" class="icon" aria-label="Indietro" hidden>←</button>
-  <h1 id="title">Deutsch mit Bea</h1>
-  <div class="stats"><span id="streak">🔥 0</span><span id="xp">⭐ 0</span></div>
-</header>
-<main id="app"></main>
+<div class="shell">
+  <aside class="side" id="side">
+    <a class="brand" href="#"><span class="logo" aria-hidden="true"></span><span><b>Deutsch</b><small>mit Bea</small></span></a>
+    <nav id="nav"></nav>
+    <div class="side-foot" id="sidefoot"></div>
+  </aside>
+  <div class="main">
+    <header class="top">
+      <button id="back" class="iconbtn" aria-label="Indietro" hidden></button>
+      <div class="ttl"><small id="crumb"></small><h1 id="title">Deutsch mit Bea</h1></div>
+      <div class="pills" id="pills"></div>
+    </header>
+    <main id="app"></main>
+  </div>
+  <nav class="tabbar" id="tabbar"></nav>
+</div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
 <script src="data.js"></script>
+<script src="vocab.js"></script>
+<script src="content.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
