@@ -146,10 +146,29 @@ function listen(onResult, onEnd, opt = {}) {
     if (opt.continuous) { let fin = "", int = ""; for (const res of e.results) (res.isFinal ? (fin += res[0].transcript + " ") : (int += res[0].transcript)); onResult([fin.trim(), int]); }
     else onResult([...e.results[0]].map(a => a.transcript));
   };
-  r.onerror = e => { if (!["no-speech", "aborted"].includes(e.error)) toast("Microfono: " + (e.error === "not-allowed" ? "permesso negato. Consentilo nelle impostazioni del browser." : e.error)); };
+  r.onerror = e => { opt.onError && opt.onError(e.error); if (!["no-speech", "aborted"].includes(e.error)) toast("Microfono: " + (e.error === "not-allowed" ? "permesso negato. Consentilo nelle impostazioni del browser." : e.error)); };
   r.onend = () => onEnd && onEnd();
   try { r.start(); } catch {}
   return r;
+}
+
+// Dettatura a mano libera: tocca per iniziare, tocca di nuovo per finire. Le pause non la interrompono
+// (su iPhone il riconoscimento si chiude da solo: lo riavviamo finché l'utente non preme "Fine").
+function dictate(btn, field, opt = {}) {
+  const label = opt.label || "Parla";
+  let on = false, rec = null, base = "", lastHit = 0, fatal = false;
+  const ui = () => { btn.classList.toggle("rec", on); btn.innerHTML = on ? ic("check") + " Fine" : ic("mic") + " " + label; const h = opt.hint && $(opt.hint); if (h) h.textContent = on ? "Ti ascolto: prenditi tutto il tempo. Le pause non interrompono. Tocca «Fine» quando hai finito." : ""; };
+  const start = () => {
+    base = field.value.trim(); fatal = false;
+    rec = listen(([fin, int]) => { lastHit = Date.now(); field.value = (base + " " + fin + " " + int).replace(/\s+/g, " ").trim(); opt.onText && opt.onText(field.value); },
+      () => { rec = null; if (on && !fatal && Date.now() - lastHit < 120000) setTimeout(() => on && start(), 150); else stop(); },
+      { continuous: true, interim: true, onError: err => { if (!["no-speech", "aborted", "network"].includes(err)) fatal = true; } });
+    if (!rec) stop();
+  };
+  const stop = () => { const was = on; on = false; if (rec) { try { rec.stop(); } catch {} } ui(); if (was) { field.focus(); opt.onStop && opt.onStop(field.value.trim()); } };
+  btn.onclick = () => { if (on) return stop(); speechSynthesis.cancel(); on = true; lastHit = Date.now(); ui(); start(); };
+  ui();
+  return { stop, get active() { return on; } };
 }
 const arr = x => Array.isArray(x) ? x : x && typeof x === "object" ? Object.values(x) : [];
 const norm = s => String(s).toLowerCase().replace(/ß/g, "ss").replace(/[.,!?;:"'„“”«»()–—-]/g, " ").replace(/\s+/g, " ").trim();
@@ -809,18 +828,14 @@ function drawChat(speakLast) {
       <button class="btn ghost" id="reset">${ic("refresh")} Nuova</button>${chat.length > 3 ? `<button class="btn ghost" id="eval">${ic("medal")} Valuta la conversazione</button>` : ""}</div>
     <div class="chat" id="log">${html}${busy ? `<div class="bubble t typing"><span></span><span></span><span></span></div>` : ""}</div>
     <div class="composer"><textarea class="answer" id="msg" rows="${tmode === "brief" ? 6 : 2}" placeholder="${tmode === "grammatik" ? "Scrivi la tua domanda…" : "Scrivi in tedesco o usa il microfono…"}"></textarea>
-      <div class="row"><button class="btn" id="mic">${ic("mic")} Parla</button><span class="spacer"></span><button class="btn" id="send">${ic("send")} Invia</button></div><div id="fb"></div></div>`, { nav: "tutor", keepScroll: true });
+      <div class="row"><button class="btn" id="mic">${ic("mic")} Parla</button><span class="spacer"></span><button class="btn" id="send">${ic("send")} Invia</button></div><small class="muted" id="mhint"></small><div id="fb"></div></div>`, { nav: "tutor", keepScroll: true });
   $("mode").onchange = e => { tmode = e.target.value; chat = []; tutor(); };
   $("reset").onclick = () => { chat = []; tutor(); };
   if ($("eval")) $("eval").onclick = evalChat;
-  const send = () => { const t = $("msg").value.trim(); if (t && !busy) ask(t); };
+  const send = () => { if (dk.active) dk.stop(); const t = $("msg").value.trim(); if (t && !busy) ask(t); };
   $("send").onclick = send;
   $("msg").onkeydown = e => { if (e.key === "Enter" && !e.shiftKey && tmode !== "brief") { e.preventDefault(); send(); } };
-  $("mic").onclick = () => {
-    const m = $("mic"); m.classList.add("rec"); m.innerHTML = ic("mic") + " Ti ascolto…"; speechSynthesis.cancel();
-    let txt = "";
-    listen(([fin, int]) => { txt = (fin + " " + int).trim(); $("msg").value = txt; }, () => { const m = $("mic"); if (m) { m.classList.remove("rec"); m.innerHTML = ic("mic") + " Parla"; } if (txt && !busy) ask(txt); }, { continuous: false, interim: true });
-  };
+  const dk = dictate($("mic"), $("msg"), { hint: "mhint" }); cleanup.push(() => dk.stop());
   const last = chat[chat.length - 1];
   if (speakLast && last && last.role === "model" && tmode !== "grammatik") speak(splitFix(last.text)[0].replace(/\*\*/g, ""));
   window.scrollTo(0, document.body.scrollHeight);
@@ -1093,7 +1108,7 @@ JSON: {"title": "...", "aufgabe": "Aufgabenstellung auf Deutsch", "punkte": ["Fo
       <details><summary class="tag" style="cursor:pointer">Espressioni utili</summary>${arr(task.redemittel).map(r => `<div class="vocab"><span>${esc(r)}</span>${sayBtn(r)}</div>`).join("")}</details></div>
       ${interactive ? `<div class="chat">${log.map(x => `<div class="bubble ${x.u ? "u" : "t"}">${esc(x.t)}</div>`).join("")}</div>` : `<div class="card"><span class="tag">LA TUA PRESENTAZIONE (TRASCRIZIONE)</span><p class="reading" id="tr" style="min-height:80px">${esc(transcript) || '<span class="muted">Premi «Parla» e presenta il tema. Il testo apparirà qui.</span>'}</p></div>`}
       <div class="composer"><textarea class="answer" id="msg" rows="2" placeholder="Parla con il microfono o scrivi…"></textarea>
-        <div class="row"><button class="btn" id="mic">${ic("mic")} ${interactive ? "Parla" : "Registra"}</button>${interactive ? `<button class="btn ghost" id="send">${ic("send")} Invia</button>` : ""}<span class="spacer"></span><button class="btn soft" id="fin">${ic("medal")} Termina e valuta</button></div><div id="fb"></div></div>`, { nav: "esame" });
+        <div class="row"><button class="btn" id="mic">${ic("mic")} ${interactive ? "Parla" : "Registra"}</button>${interactive ? `<button class="btn ghost" id="send">${ic("send")} Invia</button>` : ""}<span class="spacer"></span><button class="btn soft" id="fin">${ic("medal")} Termina e valuta</button></div><small class="muted" id="mhint"></small><div id="fb"></div></div>`, { nav: "esame" });
     if (interactive && !log.length) { log.push({ u: false, t: task.partner_start }); draw(); speak(task.partner_start); return; }
     const sendTurn = async txt => {
       if (!txt) return; log.push({ u: true, t: txt }); draw();
@@ -1102,20 +1117,13 @@ JSON: {"title": "...", "aufgabe": "Aufgabenstellung auf Deutsch", "punkte": ["Fo
         log.push({ u: false, t: reply }); draw(); speak(reply);
       } catch (e) { $("fb").innerHTML = aiErrBox(e); }
     };
-    $("mic").onclick = () => {
-      const m = $("mic");
-      if (rec) { rec.stop(); return; }
-      m.classList.add("rec"); m.innerHTML = ic("mic") + " Stop"; speechSynthesis.cancel();
-      const base = transcript;
-      rec = listen(([fin, int]) => {
-        if (interactive) $("msg").value = (fin + " " + int).trim();
-        else { transcript = (base + " " + fin).trim(); const tr = $("tr"); if (tr) tr.textContent = transcript + (int ? " " + int : ""); }
-      }, () => { rec = null; const mm = $("mic"); if (mm) { mm.classList.remove("rec"); mm.innerHTML = ic("mic") + (interactive ? " Parla" : " Registra"); } if (interactive) { const v = $("msg").value.trim(); if (v) sendTurn(v); } }, { continuous: !interactive, interim: true });
-    };
-    if (interactive) { $("send").onclick = () => sendTurn($("msg").value.trim()); $("msg").onkeydown = e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendTurn($("msg").value.trim()); } }; }
-    else $("msg").oninput = e => { transcript = e.target.value; };
+    if (!interactive) $("msg").value = transcript;
+    const dk = dictate($("mic"), $("msg"), { label: interactive ? "Parla" : "Registra", hint: "mhint", onText: v => { if (!interactive) { transcript = v; const tr = $("tr"); if (tr) tr.textContent = v; } } });
+    rec = null; cleanup.push(() => dk.stop());
+    if (interactive) { const st = () => { if (dk.active) dk.stop(); sendTurn($("msg").value.trim()); }; $("send").onclick = st; $("msg").onkeydown = e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); st(); } }; }
+    else $("msg").oninput = e => { transcript = e.target.value; const tr = $("tr"); if (tr) tr.textContent = transcript; };
     $("fin").onclick = async () => {
-      if (rec) rec.stop();
+      if (dk.active) dk.stop();
       const text = interactive ? log.map(x => (x.u ? "Kandidatin: " : "Partner: ") + x.t).join("\n") : transcript;
       if (!text.trim() || (interactive && !log.some(x => x.u))) return toast("Prima parla o scrivi qualcosa.");
       loading("Valutazione orale", "Valuto la tua prestazione");
