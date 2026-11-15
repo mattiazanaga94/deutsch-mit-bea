@@ -313,3 +313,10 @@ input.gap.bad{border-color:var(--bad);background:var(--bad-soft);color:var(--bad
 .gapsol{font-weight:700;color:var(--ok);margin:0 4px 0 2px}
 .gapfix{color:var(--muted);font-weight:600}
 .theory ul{margin:6px 0 10px;padding-left:20px}.theory li{margin:4px 0}
+details.acc>summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer}
+details.acc>summary::-webkit-details-marker{display:none}
+details.acc>summary svg.i{transition:transform .2s;color:var(--muted)}
+details.acc[open]>summary svg.i{transform:rotate(90deg)}
+.theory .tbl{font-size:.92rem}.theory .tbl td,.theory .tbl th{vertical-align:top}
+.theory{overflow-x:auto}
+@media (max-width:600px){.theory .tbl{font-size:.8rem}.theory .tbl td,.theory .tbl th{padding:7px 4px}.theory .tbl th{font-size:.62rem;letter-spacing:.03em}}
