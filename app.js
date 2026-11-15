@@ -338,6 +338,8 @@ function home() {
       ${mod("lezioni", "book", "Lezioni", `${LESSONS.length} lezioni: grammatica, comunicazione, cultura`, "#0071e3")}
       ${mod("dizionario", "library", "Vocabolario", `${VOCAB.length} voci con spiegazioni ed esempi`, "#5e5ce6")}
       ${mod("pratica", "layers", "Esercizi", "Flashcard, test, coppie, ascolto, pronuncia", "#30b06a")}
+      ${mod("prep", "layers", "Verbi con preposizione", "warten auf, denken an · woran, darauf", "#0071e3")}
+      ${mod("verbi", "pen", "Verbi B2", "Flashcard, paradigmi, frasi da completare", "#bf5af2")}
       ${mod("dettato", "pen", "Dettato", "Parole, frasi e testi completi", "#e8590c")}
     </div>
     <div class="sec"><h3>Con l'intelligenza artificiale</h3></div>
@@ -1256,6 +1258,10 @@ function settings() {
 // ============================================================ AVVIO
 (S.aiLessons || []).forEach(l => { if (!LESSONS.find(x => x.id === l.id)) LESSONS.push(l); });
 applyTheme(); renderChrome(); route();
-if ("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("sw.js").catch(() => {});
+if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+  const hadSW = !!navigator.serviceWorker.controller; let reloaded = false;
+  navigator.serviceWorker.addEventListener("controllerchange", () => { if (hadSW && !reloaded) { reloaded = true; location.reload(); } });
+  navigator.serviceWorker.register("sw.js").then(r => r.update()).catch(() => {});
+}
 window.addEventListener("online", () => toast("Di nuovo online: funzioni IA disponibili."));
 window.addEventListener("offline", () => toast("Sei offline: l'app continua a funzionare, tranne l'IA."));
