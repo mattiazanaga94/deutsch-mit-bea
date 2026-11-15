@@ -222,7 +222,7 @@ const PREP_THEORY = `
   <ul>
     <li>sempre <b>Akkusativ</b>: <i>für, um, gegen</i>, e quasi sempre <i>über</i></li>
     <li>sempre <b>Dativ</b>: <i>mit, nach, von, zu, bei, aus</i></li>
-    <li><i>auf</i> e <i>an</i> con questi verbi sono quasi sempre <b>Akkusativ</b> (<i>warten auf den Bus, denken an den Termin</i>). Eccezioni da ricordare: <b>teilnehmen an</b>, <b>arbeiten an</b>, <b>zweifeln an</b>, <b>leiden an</b>, <b>bestehen auf</b> + Dativ.</li>
+    <li><i>auf</i> e <i>an</i> con questi verbi sono quasi sempre <b>Akkusativ</b> (<i>warten auf den Bus, denken an den Termin</i>). Eccezioni da ricordare: <b>teilnehmen an</b>, <b>arbeiten an</b>, <b>zweifeln an</b>, <b>leiden an</b>, <b>erkennen an</b>, <b>liegen an</b>, <b>interessiert sein an</b>, <b>bestehen auf</b> + Dativ.</li>
     <li><i>vor</i> e <i>unter</i> con i verbi sono <b>Dativ</b> (<i>Angst haben vor dem Hund, leiden unter dem Stress</i>).</li>
   </ul>
   <p><b>Attenzione alle coppie:</b> <i>sich freuen <b>auf</b></i> (qualcosa che deve venire) / <i>sich freuen <b>über</b></i> (qualcosa che c'è già) · <i>sich bewerben <b>um</b></i> (il posto) / <i>bei</i> (l'azienda) · <i>sich bedanken <b>für</b></i> (la cosa) / <i>bei</i> (la persona) · <i>leiden <b>an</b></i> (malattia) / <i>unter</i> (situazione).</p>`;
