@@ -265,7 +265,7 @@ const NAV = [
 const TABS = [["", "home", "Oggi"], ["lezioni", "book", "Lezioni"], ["dizionario", "library", "Parole"], ["tutor", "chat", "Tutor"], ["esame", "grad", "Esame"]];
 function renderNav(active) {
   const cur = active ?? location.hash.slice(1).split("/")[0];
-  const map = { lezione: "lezioni", flash: "pratica", quiz: "pratica", memory: "pratica", ascolto: "pratica", parla: "pratica", dialoghi: "pratica", dialogo: "pratica", prep: "pratica", verbi: "pratica", casi: "pratica", preposizioni: "pratica" };
+  const map = { lezione: "lezioni", flash: "pratica", quiz: "pratica", memory: "pratica", ascolto: "pratica", parla: "pratica", dialoghi: "pratica", dialogo: "pratica", prep: "pratica", verbi: "pratica", partizip: "pratica", casi: "pratica", preposizioni: "pratica" };
   const a = map[cur] ?? cur;
   $("nav").innerHTML = NAV.map(([sec, items]) => `<div class="navsec">${sec}</div>` + items.map(([h, i, t]) => `<a class="navlink ${a === h ? "on" : ""}" href="#${h}">${ic(i)}${t}</a>`).join("")).join("");
   $("tabbar").innerHTML = TABS.map(([h, i, t]) => `<a class="${a === h ? "on" : ""}" href="#${h}">${ic(i)}${t}</a>`).join("");
@@ -282,7 +282,7 @@ function route() {
   if ("speechSynthesis" in window) speechSynthesis.cancel();
   const R = { lezioni: lessonsList, lezione: () => lesson(a), dizionario: () => dictionary(a), pratica: practice, flash: () => flashcards(a), quiz: () => quiz(a),
     memory: () => memory(a), dettato: () => dictation(a, b), ascolto: listening, parla: () => speaking(a), dialoghi: dialoguesList, dialogo: () => dialogue(a),
-    tutor, lab: () => lab(a), prep: () => prepHub(a, b), verbi: () => b2Hub(a), casi: () => casiHub(a), preposizioni: () => preposHub(a), esame: () => exam(a, b), progressi: progress, premi: rewards, impostazioni: settings };
+    tutor, lab: () => lab(a), prep: () => prepHub(a, b), verbi: () => b2Hub(a), partizip: () => p2Hub(a, b), casi: () => casiHub(a), preposizioni: () => preposHub(a), esame: () => exam(a, b), progressi: progress, premi: rewards, impostazioni: settings };
   (R[p] || home)();
 }
 
@@ -342,6 +342,7 @@ function home() {
       ${mod("preposizioni", "globe", "Preposizioni", "Come si usano: luogo, tempo, differenze", "#30b06a")}
       ${mod("prep", "layers", "Verbi con preposizione", "warten auf, denken an · woran, darauf", "#0071e3")}
       ${mod("verbi", "pen", "Verbi B2", "Flashcard, paradigmi, frasi da completare", "#bf5af2")}
+      ${mod("partizip", "clock", "Partizip II e Perfekt", "158 verbi: regolari, irregolari, separabili, haben/sein", "#ff375f")}
       ${mod("dettato", "pen", "Dettato", "Parole, frasi e testi completi", "#e8590c")}
     </div>
     <div class="sec"><h3>Con l'intelligenza artificiale</h3></div>
@@ -506,6 +507,7 @@ function practice() {
       ${mod("preposizioni", "globe", "Preposizioni", "Come si usano: luogo, tempo, differenze", "#30b06a")}
       ${mod("prep", "layers", "Verbi con preposizione", "warten auf, denken an · woran, darauf", "#0071e3")}
       ${mod("verbi", "pen", "Verbi B2", "Flashcard, paradigmi, frasi da completare", "#bf5af2")}
+      ${mod("partizip", "clock", "Partizip II e Perfekt", "158 verbi: regolari, irregolari, separabili, haben/sein", "#ff375f")}
       ${mod("flash", "layers", "Flashcard", "Ripasso a intervalli con voce", "#5e5ce6")}
       ${mod("quiz", "checksq", "Test di vocabolario", "Tedesco ↔ italiano", "#0071e3")}
       ${mod("memory", "puzzle", "Gioco delle coppie", "Abbina parole e traduzioni", "#30b06a")}
