@@ -265,7 +265,7 @@ const NAV = [
 const TABS = [["", "home", "Oggi"], ["lezioni", "book", "Lezioni"], ["dizionario", "library", "Parole"], ["tutor", "chat", "Tutor"], ["esame", "grad", "Esame"]];
 function renderNav(active) {
   const cur = active ?? location.hash.slice(1).split("/")[0];
-  const map = { lezione: "lezioni", flash: "pratica", quiz: "pratica", memory: "pratica", ascolto: "pratica", parla: "pratica", dialoghi: "pratica", dialogo: "pratica" };
+  const map = { lezione: "lezioni", flash: "pratica", quiz: "pratica", memory: "pratica", ascolto: "pratica", parla: "pratica", dialoghi: "pratica", dialogo: "pratica", prep: "pratica", verbi: "pratica" };
   const a = map[cur] ?? cur;
   $("nav").innerHTML = NAV.map(([sec, items]) => `<div class="navsec">${sec}</div>` + items.map(([h, i, t]) => `<a class="navlink ${a === h ? "on" : ""}" href="#${h}">${ic(i)}${t}</a>`).join("")).join("");
   $("tabbar").innerHTML = TABS.map(([h, i, t]) => `<a class="${a === h ? "on" : ""}" href="#${h}">${ic(i)}${t}</a>`).join("");
@@ -282,7 +282,7 @@ function route() {
   if ("speechSynthesis" in window) speechSynthesis.cancel();
   const R = { lezioni: lessonsList, lezione: () => lesson(a), dizionario: () => dictionary(a), pratica: practice, flash: () => flashcards(a), quiz: () => quiz(a),
     memory: () => memory(a), dettato: () => dictation(a, b), ascolto: listening, parla: () => speaking(a), dialoghi: dialoguesList, dialogo: () => dialogue(a),
-    tutor, lab: () => lab(a), esame: () => exam(a, b), progressi: progress, premi: rewards, impostazioni: settings };
+    tutor, lab: () => lab(a), prep: () => prepHub(a, b), verbi: () => b2Hub(a), esame: () => exam(a, b), progressi: progress, premi: rewards, impostazioni: settings };
   (R[p] || home)();
 }
 
@@ -404,6 +404,7 @@ function lesson(id) {
       ${mod("memory/" + id, "puzzle", "Coppie", "Abbina le traduzioni", "#30b06a")}
       ${mod("dettato/parole/" + id, "pen", "Dettato", "Ascolta e scrivi", "#e8590c")}
       ${mod("parla/" + id, "mic", "Pronuncia", "Parla e vieni capita", "#ff375f")}
+      ${l.id === "b8" ? mod("prep", "layers", "Allenamento completo", "115 verbi, frasi, woran/daran", "#0071e3") : ""}
       ${l.id !== "mie" ? mod("lab/spiega/" + id, "lightbulb", "Approfondisci con l'IA", "Altri esempi ed esercizi", "#d6336c") : ""}
     </div>` : ""}`, { back: true, crumb: "Lezione", nav: "lezioni" });
   $("playall").onclick = () => { speechSynthesis.cancel(); l.vocab.forEach(([de]) => speak(de, null, { queue: true })); };
@@ -496,6 +497,8 @@ function practice() {
   view("Esercizi", `
     <div class="row" style="margin-bottom:16px">${seg("lvl", ["B1", "B2"], S.level)}<span class="spacer"></span><span class="tag">${dueWords().length} parole da ripassare</span></div>
     <div class="mods">
+      ${mod("prep", "layers", "Verbi con preposizione", "warten auf, denken an · woran, darauf", "#0071e3")}
+      ${mod("verbi", "pen", "Verbi B2", "Flashcard, paradigmi, frasi da completare", "#bf5af2")}
       ${mod("flash", "layers", "Flashcard", "Ripasso a intervalli con voce", "#5e5ce6")}
       ${mod("quiz", "checksq", "Test di vocabolario", "Tedesco ↔ italiano", "#0071e3")}
       ${mod("memory", "puzzle", "Gioco delle coppie", "Abbina parole e traduzioni", "#30b06a")}
