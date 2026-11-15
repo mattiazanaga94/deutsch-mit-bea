@@ -271,6 +271,7 @@ function casiHub(a) {
       ${mod("casi/riconosci", "checksq", "Riconosci il caso", "Nominativ, Akkusativ o Dativ? E perché", "#ff375f")}
       ${CASI_SETS.map(s => mod("casi/" + s[0], "pen", s[1], s[2], s[3])).join("")}
       ${mod("casi/test", "grad", "Test misto", "20 frasi su tutte le regole", "#b8860b")}
+      ${mod("preposizioni", "globe", "Preposizioni: come si usano", "Significati, differenze, esercizi", "#30b06a")}
     </div>`, { back: true, crumb: "Esercizi", nav: "pratica" });
 }
 
