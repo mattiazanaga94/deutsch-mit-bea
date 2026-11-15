@@ -4,7 +4,7 @@ App web installabile (PWA) per preparare il Goethe-Zertifikat B1 e B2. Link: htt
 
 ## Contenuti
 - Lezioni: grammatica B1/B2 completa, comunicazione, Landeskunde (storia, Bundesländer, Austria/Svizzera, politica, Goethe/Schiller, feste, economia, vita in Germania), con lettura ad alta voce e domande.
-- Vocabolario integrato: 278 voci B1–B2 (con sezione «Verbi per scrivere un buon testo») con grammatica, traduzione, nota, esempio tradotto; filtri per livello e tema; ricerca IA per qualsiasi parola.
+- Vocabolario integrato: 645 voci B1–B2 in 21 argomenti (con sezione «Verbi per scrivere un buon testo») con grammatica, traduzione, nota, esempio tradotto; filtri per livello e tema; ricerca IA per qualsiasi parola.
 - Esercizi: verbi con preposizione (120 verbi, flashcard, scelta, frasi da completare, woran/daran), verbi B2 (73 verbi: flashcard, paradigmi, significato, frasi), flashcard con ripasso a intervalli, quiz, memory, ascolto, pronuncia, dialoghi.
 - Dettato: parole, frasi, 10 testi, testi IA; frase per frase, lento, punteggiatura dettata, correzione parola per parola.
 - Tutor IA (Gemini): conversazione, giochi di ruolo, esame orale, avvocato del diavolo, e-mail formali, grammatica; correzioni in ogni risposta.
