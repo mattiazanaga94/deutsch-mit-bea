@@ -74,11 +74,66 @@ const CASI_THEORY = [
       <li><b>seit</b> + Dat. = da (dura ancora): <i>seit drei Monaten</i> · <b>ab</b> = a partire da: <i>ab Montag</i> · <b>bis</b> = fino a: <i>bis Freitag</i></li>
       <li><b>nach</b> + Dat. = dopo: <i>nach der Arbeit</i> · <b>vor</b> + Dat. = prima di: <i>vor dem Essen</i> · <b>während</b> + Gen. = durante: <i>während des Urlaubs</i></li>
       <li><b>für</b> + Akk. = per (durata prevista): <i>für zwei Wochen</i> · <b>über</b> + Akk. = oltre: <i>über eine Stunde</i></li>
-    </ul>` }
+    </ul>` },
+  { id: "agg", t: "9. Aggettivi in Akkusativ e Dativ", h: `
+    <p>Anche l'aggettivo davanti al nome cambia. Regola d'oro: <b>nel Dativ l'aggettivo finisce sempre in -en</b> dopo un articolo (der/ein/mein/kein).</p>
+    <table class="tbl"><tr><th></th><th>maschile</th><th>femminile</th><th>neutro</th><th>plurale</th></tr>
+      <tr><td><b>Akk.</b></td><td>den neu<b>en</b> Tisch<br>einen neu<b>en</b> Tisch</td><td>die neu<b>e</b> Lampe<br>eine neu<b>e</b> Lampe</td><td>das neu<b>e</b> Sofa<br>ein neu<b>es</b> Sofa</td><td>die neu<b>en</b> Stühle<br>neu<b>e</b> Stühle</td></tr>
+      <tr><td><b>Dat.</b></td><td>dem neu<b>en</b> Tisch<br>einem neu<b>en</b> Tisch</td><td>der neu<b>en</b> Lampe<br>einer neu<b>en</b> Lampe</td><td>dem neu<b>en</b> Sofa<br>einem neu<b>en</b> Sofa</td><td>den neu<b>en</b> Stühlen<br>neu<b>en</b> Stühlen</td></tr></table>
+    <p style="margin-top:12px">Senza articolo l'aggettivo prende la desinenza dell'articolo che manca: <i>mit frisch<b>em</b> Brot</i> (dem), <i>mit kalt<b>er</b> Milch</i> (der), <i>ich trinke heiß<b>en</b> Tee</i> (den).</p>
+    <p><i>Ich kaufe einen schwarz<b>en</b> Mantel.</i> — Compro un cappotto nero. · <i>Ich wohne in einer klein<b>en</b> Wohnung.</i> — Abito in un piccolo appartamento. · <i>Er spricht mit dem neu<b>en</b> Kollegen.</i> — Parla con il nuovo collega.</p>` }
 ];
 
 // Esercizi. Lacune {risposta|alternativa}
 const CASI_EX = {
+  pronomi: [
+    { s: "Kennst du den neuen Kollegen? – Ja, ich kenne {ihn}.", hint: "den Kollegen → pronome", it: "Conosci il nuovo collega? – Sì, lo conosco.", x: "kennen + Akk., maschile → ihn." },
+    { s: "Hast du deiner Mutter geschrieben? – Ja, ich habe {ihr} geschrieben.", hint: "deiner Mutter → pronome", it: "Hai scritto a tua madre? – Sì, le ho scritto.", x: "schreiben (a qualcuno) → Dat. femminile → ihr." },
+    { s: "Gefällt dir die Wohnung? – Ja, sie gefällt {mir} sehr.", hint: "ich", it: "Ti piace l'appartamento? – Sì, mi piace molto.", x: "gefallen + Dat. → mir." },
+    { s: "Wo ist Paul? Ich suche {ihn} schon seit einer Stunde.", hint: "Paul → pronome", it: "Dov'è Paul? Lo cerco da un'ora.", x: "suchen + Akk. → ihn." },
+    { s: "Kannst du {uns} am Wochenende besuchen?", hint: "wir", it: "Puoi venirci a trovare nel fine settimana?", x: "besuchen + Akk. → uns (uguale al Dat.)." },
+    { s: "Ich habe den Kindern ein Eis gekauft. Ich habe {ihnen} ein Eis gekauft.", hint: "den Kindern → pronome", it: "Ho comprato un gelato ai bambini.", x: "Persona che riceve → Dat. plurale → ihnen." },
+    { s: "Herr Weber, ich rufe {Sie} morgen an.", hint: "Sie (formale)", it: "Signor Weber, La chiamo domani.", x: "anrufen + Akk. → Sie." },
+    { s: "Herr Weber, ich danke {Ihnen} für alles.", hint: "Sie (formale)", it: "Signor Weber, La ringrazio di tutto.", x: "danken + Dat. → Ihnen." },
+    { s: "Wie geht es {dir}?", hint: "du", it: "Come stai?", x: "Es geht + Dat. → dir." },
+    { s: "Ich liebe {dich}.", hint: "du", it: "Ti amo.", x: "lieben + Akk. → dich." },
+    { s: "Das Buch? Ich gebe es {dir} morgen.", hint: "du", it: "Il libro? Te lo do domani.", x: "geben: persona al Dat. → dir." },
+    { s: "Wartet ihr auf {mich}?", hint: "ich", it: "Mi aspettate?", x: "warten auf + Akk. → mich." },
+    { s: "Kommst du mit {mir} ins Kino?", hint: "ich", it: "Vieni al cinema con me?", x: "mit + Dat. → mir." },
+    { s: "Das Geschenk ist für {euch}.", hint: "ihr", it: "Il regalo è per voi.", x: "für + Akk. → euch." },
+    { s: "Meine Großeltern? Ich wohne bei {ihnen}.", hint: "sie (Pl.)", it: "I miei nonni? Abito da loro.", x: "bei + Dat. plurale → ihnen." }
+  ],
+  articoli: [
+    { s: "Ich habe {einen} Hund und {eine} Katze.", hint: "ein Hund (m.) · eine Katze (f.)", it: "Ho un cane e un gatto.", x: "haben + Akk.: maschile einen, femminile resta eine." },
+    { s: "Der Lehrer erklärt {den} Schülern {die} Regel.", hint: "die Schüler (Pl.) · die Regel", it: "L'insegnante spiega la regola agli studenti.", x: "A chi? → Dat. plurale den Schülern. Cosa? → Akk. die Regel." },
+    { s: "{Der} Mann gibt {der} Frau {einen} Blumenstrauß.", hint: "der Mann · die Frau · ein Blumenstrauß (m.)", it: "L'uomo dà alla donna un mazzo di fiori.", x: "Soggetto → Nom. der; a chi → Dat. der Frau; cosa → Akk. einen." },
+    { s: "Ich kenne {das} Restaurant, aber ich war noch nie in {dem|diesem} Restaurant.", hint: "das Restaurant", it: "Conosco il ristorante, ma non ci sono mai stata.", x: "kennen + Akk. (neutro das); in + Wo? → Dat. dem." },
+    { s: "Kannst du {dem} Taxifahrer {die} Adresse sagen?", hint: "der Taxifahrer · die Adresse", it: "Puoi dire l'indirizzo al tassista?", x: "A chi → Dat. dem; cosa → Akk. die." },
+    { s: "Wir haben {keinen} Zucker mehr.", hint: "kein Zucker (m.)", it: "Non abbiamo più zucchero.", x: "haben + Akk. maschile → keinen." },
+    { s: "Ich fahre mit {meinem} Auto zu {meiner} Schwester.", hint: "mein Auto · meine Schwester", it: "Vado con la mia macchina da mia sorella.", x: "mit + Dat. (neutro meinem), zu + Dat. (femminile meiner)." },
+    { s: "Wir suchen {eine} Wohnung mit {einem} Balkon.", hint: "eine Wohnung · ein Balkon (m.)", it: "Cerchiamo un appartamento con balcone.", x: "suchen + Akk. → eine; mit + Dat. → einem." },
+    { s: "Ich bringe {den} Brief zur Post.", hint: "der Brief", it: "Porto la lettera in posta.", x: "bringen: cosa → Akk. maschile den." },
+    { s: "Das Handy gehört {dem} Mädchen.", hint: "das Mädchen", it: "Il cellulare è della ragazza.", x: "gehören + Dat. neutro → dem." },
+    { s: "Ich lege {das} Buch auf {den} Tisch.", hint: "das Buch · der Tisch", it: "Metto il libro sul tavolo.", x: "legen: oggetto Akk. das; auf + Wohin? → Akk. den." },
+    { s: "Ich sitze mit {meinen} Freunden in {einem} Café.", hint: "meine Freunde · ein Café", it: "Sono seduta in un bar con i miei amici.", x: "mit + Dat. plurale meinen Freunden; in + Wo? → Dat. einem." },
+    { s: "Hast du {den} Film schon gesehen?", hint: "der Film", it: "Hai già visto il film?", x: "sehen + Akk. maschile → den." },
+    { s: "Ich helfe {dem} Nachbarn beim Umzug.", hint: "der Nachbar", it: "Aiuto il vicino nel trasloco.", x: "helfen + Dat. → dem Nachbarn (n-Deklination)." },
+    { s: "Die Lehrerin zeigt {den} Studenten {einen} Film.", hint: "die Studenten (Pl.) · ein Film", it: "L'insegnante mostra un film agli studenti.", x: "A chi → Dat. plurale den; cosa → Akk. einen." }
+  ],
+  aggettivi: [
+    { s: "Ich kaufe einen schwarz{en} Mantel.", hint: "Akk. maschile", it: "Compro un cappotto nero.", x: "Akk. maschile: einen …-en." },
+    { s: "Ich wohne in einer klein{en} Wohnung.", hint: "in + Wo? → Dat. femminile", it: "Abito in un piccolo appartamento.", x: "Dativ → sempre -en." },
+    { s: "Er spricht mit dem neu{en} Kollegen.", hint: "mit + Dat. maschile", it: "Parla con il nuovo collega.", x: "Dativ → -en." },
+    { s: "Wir haben ein groß{es} Haus gekauft.", hint: "Akk. neutro, ein", it: "Abbiamo comprato una casa grande.", x: "Akk. neutro dopo ein → -es (come das)." },
+    { s: "Ich trinke gern heiß{en} Tee.", hint: "Akk. maschile, senza articolo", it: "Bevo volentieri tè caldo.", x: "Senza articolo l'aggettivo prende la desinenza di «den» → -en." },
+    { s: "Sie hat eine rot{e} Tasche.", hint: "Akk. femminile", it: "Ha una borsa rossa.", x: "Akk. femminile → -e (uguale al Nom.)." },
+    { s: "Wir fahren mit unseren klein{en} Kindern in Urlaub.", hint: "mit + Dat. plurale", it: "Andiamo in vacanza con i nostri bambini piccoli.", x: "Dativ plurale → -en." },
+    { s: "Ich esse Brot mit frisch{er} Butter.", hint: "mit + Dat. femminile, senza articolo", it: "Mangio pane con burro fresco.", x: "Senza articolo prende la desinenza di «der» → -er." },
+    { s: "Kennst du den jung{en} Mann dort?", hint: "Akk. maschile, den", it: "Conosci quel giovane là?", x: "Akk. maschile → -en." },
+    { s: "Ich gebe dem klein{en} Mädchen einen Apfel.", hint: "Dat. neutro", it: "Do una mela alla bambina.", x: "Dativ → -en." },
+    { s: "Ich suche ein günstig{es} Hotel.", hint: "Akk. neutro, ein", it: "Cerco un hotel economico.", x: "ein + neutro → -es." },
+    { s: "Mit freundlich{en} Grüßen", hint: "mit + Dat. plurale, senza articolo", it: "Cordiali saluti", x: "Formula fissa delle lettere: Dativ plurale → -en." }
+  ],
   verbi: [
     { s: "Kannst du {mir} bitte helfen?", hint: "ich", it: "Puoi aiutarmi, per favore?", x: "helfen + Dativ → mir." },
     { s: "Ich habe {meinen} Bruder gestern besucht.", hint: "mein Bruder", it: "Ieri sono andata a trovare mio fratello.", x: "besuchen + Akkusativ, maschile → meinen." },
@@ -181,6 +236,9 @@ const CASI_EX = {
   ]
 };
 const CASI_SETS = [
+  ["articoli", "Articoli: Nom., Akk. o Dat.?", "der, den, dem, einen, einem…", "#0071e3"],
+  ["pronomi", "Pronomi: mich o mir?", "mich/mir, dich/dir, ihn/ihm, sie/ihr", "#5e5ce6"],
+  ["aggettivi", "Aggettivi", "einen neuen, einem neuen…", "#d6336c"],
   ["verbi", "Verbi + Akk. o Dat.", "helfen, gefallen, fragen, schenken…", "#0071e3"],
   ["fisse", "Preposizioni fisse", "für, durch, mit, bei, aus, zu…", "#30b06a"],
   ["wechsel", "Wo? o Wohin?", "in, an, auf, unter, neben…", "#e8590c"],
@@ -189,6 +247,7 @@ const CASI_SETS = [
 ];
 
 function casiHub(a) {
+  if (a === "riconosci") return casiRecognize();
   if (a === "test") {
     const items = shuffle(Object.values(CASI_EX).flatMap(l => shuffle(l).slice(0, 4))).slice(0, 20);
     return runCloze("Test sui casi", items, { again: "casi/test", crumb: "Dativo e Accusativo", back: "casi", task: "COMPLETA" });
@@ -200,7 +259,7 @@ function casiHub(a) {
   const open = a && CASI_THEORY.some(t => t.id === a) ? a : null;
   view("Dativo, Accusativo e preposizioni", `
     <div class="card"><div class="row"><span class="chip lg" style="--c:#0071e3">${ic("book")}</span><div style="flex:1"><h2 style="margin:0">Dativo, Accusativo e preposizioni</h2>
-      <small class="muted">Tutte le regole in 8 schede, con esempi tradotti. Tocca una scheda per aprirla.</small></div></div></div>
+      <small class="muted">Tutte le regole in 9 schede, con esempi tradotti. Tocca una scheda per aprirla.</small></div></div></div>
     ${CASI_THEORY.map(t => `<details class="card acc" ${open === t.id || (!open && t.id === "base") ? "open" : ""}><summary><h3 style="margin:0">${esc(t.t)}</h3>${ic("right")}</summary><div class="theory" style="margin-top:12px">${t.h}</div></details>`).join("")}
     <div class="card"><h3>In sintesi: come decido?</h3><div class="theory"><ol style="margin:0;padding-left:20px">
       <li>C'è una <b>preposizione</b>? Se è fissa (für, mit…) usa il suo caso. Se è a due vie (in, an, auf…) chiediti <b>Wohin?</b> (Akk.) o <b>Wo?</b> (Dat.).</li>
@@ -209,7 +268,72 @@ function casiHub(a) {
       <li>Il verbo ha una preposizione fissa (warten auf, denken an…)? Vedi la sezione <a href="#prep">Verbi con preposizione</a>.</li></ol></div></div>
     <div class="sec"><h3>Esercitati</h3></div>
     <div class="mods">
+      ${mod("casi/riconosci", "checksq", "Riconosci il caso", "Nominativ, Akkusativ o Dativ? E perché", "#ff375f")}
       ${CASI_SETS.map(s => mod("casi/" + s[0], "pen", s[1], s[2], s[3])).join("")}
       ${mod("casi/test", "grad", "Test misto", "20 frasi su tutte le regole", "#b8860b")}
     </div>`, { back: true, crumb: "Esercizi", nav: "pratica" });
+}
+
+// ---- Riconosci il caso: [frase con *parola*, caso, perché]
+const CASI_RIC = [
+  ["*Der Hund* bellt die ganze Nacht.", "N", "È il soggetto (chi abbaia?) → Nominativ."],
+  ["Ich sehe *den Hund* im Garten.", "A", "Oggetto diretto di sehen (wen sehe ich?) → Akkusativ."],
+  ["Ich gebe *dem Hund* Wasser.", "D", "A chi do l'acqua? → Dativ (persona/animale che riceve)."],
+  ["Ich gebe dem Hund *Wasser*.", "A", "Che cosa do? → oggetto diretto → Akkusativ."],
+  ["Wir helfen *unserer Nachbarin*.", "D", "helfen vuole sempre il Dativ."],
+  ["Wir besuchen *unsere Nachbarin*.", "A", "besuchen vuole l'Akkusativ (oggetto diretto)."],
+  ["Das Fahrrad gehört *meinem Bruder*.", "D", "gehören + Dativ (è di chi?)."],
+  ["*Mein Bruder* fährt jeden Tag Fahrrad.", "N", "Soggetto → Nominativ."],
+  ["Ich fahre mit *dem Bus* zur Arbeit.", "D", "mit vuole sempre il Dativ."],
+  ["Das Geschenk ist für *meinen Vater*.", "A", "für vuole sempre l'Akkusativ."],
+  ["Ich gehe in *den Supermarkt*.", "A", "in + movimento verso (Wohin?) → Akkusativ."],
+  ["Ich bin in *dem Supermarkt*.", "D", "in + posizione (Wo?) → Dativ."],
+  ["Wir laufen durch *den Park*.", "A", "durch vuole sempre l'Akkusativ."],
+  ["Nach *der Arbeit* gehe ich ins Fitnessstudio.", "D", "nach vuole sempre il Dativ."],
+  ["Das Essen schmeckt *den Gästen*.", "D", "schmecken + Dativ (a chi piace?)."],
+  ["Ich frage *den Verkäufer* nach dem Preis.", "A", "fragen vuole l'Akkusativ, anche se in italiano «chiedo al commesso»."],
+  ["Ich antworte *dem Verkäufer*.", "D", "antworten (a qualcuno) + Dativ."],
+  ["Das Bild hängt an *der Wand*.", "D", "hängen (essere appeso), Wo? → Dativ."],
+  ["Ich hänge das Bild an *die Wand*.", "A", "hängen (appendere), Wohin? → Akkusativ."],
+  ["Ich kenne *einen guten Arzt*.", "A", "kennen + Akkusativ: einen (maschile)."],
+  ["Er wohnt bei *einem Freund*.", "D", "bei vuole sempre il Dativ."],
+  ["Ohne *meinen Kaffee* kann ich nicht arbeiten.", "A", "ohne vuole sempre l'Akkusativ."],
+  ["Seit *einem Monat* lerne ich Deutsch.", "D", "seit vuole sempre il Dativ."],
+  ["*Die Kinder* spielen im Hof.", "N", "Soggetto → Nominativ."],
+  ["Ich erkläre *den Kindern* die Regeln.", "D", "erklären: la persona a cui si spiega → Dativ (plurale den Kindern)."],
+  ["Ich erkläre den Kindern *die Regeln*.", "A", "Che cosa spiego? → Akkusativ."],
+  ["Wir treffen uns am *Abend*.", "D", "am = an dem: tempo → Dativ."],
+  ["Er stellt den Koffer neben *das Bett*.", "A", "stellen (Wohin?) → Akkusativ."],
+  ["Der Koffer steht neben *dem Bett*.", "D", "stehen (Wo?) → Dativ."],
+  ["Die Jacke passt *dir* gut.", "D", "passen + Dativ → dir."],
+  ["Ich rufe *dich* heute Abend an.", "A", "anrufen + Akkusativ → dich."],
+  ["Wir danken *Ihnen* für die Einladung.", "D", "danken + Dativ → Ihnen."],
+  ["Das ist *ein schönes Geschenk*.", "N", "Dopo «sein» (essere) c'è il Nominativ: non è un oggetto."],
+  ["Er wird *ein guter Lehrer*.", "N", "Dopo werden/sein/bleiben → Nominativ (predicato)."],
+  ["Ich warte auf *den Zug*.", "A", "warten auf + Akkusativ."],
+  ["Ich träume von *einem Haus* am Meer.", "D", "von vuole sempre il Dativ."],
+  ["Es gibt *einen Supermarkt* in der Nähe.", "A", "es gibt + Akkusativ (attenzione: non è soggetto!)."],
+  ["Ich habe Angst vor *dem Hund*.", "D", "Angst haben vor + Dativ."]
+];
+function casiRecognize() {
+  const qs = shuffle(CASI_RIC).slice(0, 15), names = { N: "Nominativ", A: "Akkusativ", D: "Dativ" }; let i = 0, score = 0;
+  const draw = () => {
+    if (i >= qs.length) { addXP(score * 3); return finished(`${score} su ${qs.length}`, score >= 12 ? "Riconosci bene i casi." : "Rileggi le schede 1, 3 e 5 e riprova.", score * 3, "casi/riconosci"); }
+    const [s, c, why] = qs[i], html = esc(s).replace(/\*([^*]+)\*/, '<b style="color:var(--primary);text-decoration:underline">$1</b>');
+    view("Riconosci il caso", `${stepbar(i, qs.length)}<div class="card"><span class="tag">IN CHE CASO È LA PAROLA SOTTOLINEATA?</span>
+      <div class="prompt" style="margin:12px 0;font-size:1.25rem;line-height:1.5">${html}</div>
+      ${["N", "A", "D"].map((k, j) => `<button class="opt" data-k="${k}"><span class="k">${j + 1}</span><span>${names[k]}</span></button>`).join("")}
+      <div id="fb" class="feedback"></div></div>`, { back: true, crumb: "Dativo e Accusativo", nav: "pratica" });
+    const answer = k => {
+      if ($app.querySelector(".opt:disabled")) return;
+      const ok = k === c; if (ok) score++;
+      $app.querySelectorAll(".opt").forEach(x => { x.disabled = true; if (x.dataset.k === c) x.classList.add("ok"); else if (x.dataset.k === k) x.classList.add("bad"); });
+      const fb = $("fb"); fb.className = "feedback " + (ok ? "ok" : "bad"); fb.innerHTML = `${ok ? pick(PRAISE) : "È " + names[c] + "."} <span class="muted">${esc(why)}</span>`;
+      speak(s.replace(/\*/g, "")); later(() => { i++; draw(); }, ok ? 2400 : 4500);
+    };
+    $app.querySelectorAll(".opt").forEach(b => b.onclick = () => answer(b.dataset.k));
+    const kh = e => { if (/^[1-3]$/.test(e.key)) answer(["N", "A", "D"][+e.key - 1]); };
+    document.addEventListener("keydown", kh); cleanup.push(() => document.removeEventListener("keydown", kh));
+  };
+  draw();
 }
