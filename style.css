@@ -320,3 +320,5 @@ details.acc[open]>summary svg.i{transform:rotate(90deg)}
 .theory .tbl{font-size:.92rem}.theory .tbl td,.theory .tbl th{vertical-align:top}
 .theory{overflow-x:auto}
 @media (max-width:600px){.theory .tbl{font-size:.8rem}.theory .tbl td,.theory .tbl th{padding:7px 4px}.theory .tbl th{font-size:.62rem;letter-spacing:.03em}}
+
+.konnmap .km{padding:10px 0;border-bottom:1px solid var(--line)}.konnmap .km-h{margin-bottom:6px}.konnmap .km-c{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.konnmap .km-c small{display:block;font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
