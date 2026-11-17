@@ -7,14 +7,14 @@
 const KEY = "deutsch-bea-v1";
 const DEFAULTS = { xp: 0, streak: 0, best: 0, last: null, done: {}, words: {}, rate: 0.95, level: "B2", goal: 50, day: null, dayXP: 0,
   custom: [], exams: [], errors: [], hist: {}, tutorMsgs: 0, writings: 0, dictations: 0, theme: "auto", accent: "blue", voice: "",
-  freezes: 0, chest: null, badges: {}, gkey: "", gmodel: "", gmodelPro: "", lessonsSeen: {}, timed: true };
+  freezes: 0, chest: null, badges: {}, gkey: "", gmodel: "", gmodelPro: "", lessonsSeen: {}, timed: true, schreib: [] };
 let S = load();
 function load() {
   let d = {};
   try { d = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch {}
   const s = Object.assign(structuredClone(DEFAULTS), d);
   ["done", "words", "hist", "badges", "lessonsSeen"].forEach(k => { if (!s[k] || typeof s[k] !== "object") s[k] = {}; });
-  ["custom", "exams", "errors"].forEach(k => { if (!Array.isArray(s[k])) s[k] = []; });
+  ["custom", "exams", "errors", "schreib"].forEach(k => { if (!Array.isArray(s[k])) s[k] = []; });
   return s;
 }
 function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch {} renderChrome(); }
@@ -64,6 +64,7 @@ const ICONS = {
   checksq: '<rect x="3" y="3" width="18" height="18" rx="4"/><path d="m9 12 2 2 4-4"/>',
   puzzle: '<path d="M19.4 14.5a2 2 0 1 0 0-3.9V7a1 1 0 0 0-1-1h-3.6a2 2 0 1 0-3.9 0H7a1 1 0 0 0-1 1v3.6a2 2 0 1 1 0 3.9V18a1 1 0 0 0 1 1h3.6a2 2 0 1 1 3.9 0H18a1 1 0 0 0 1-1z"/>',
   headphones: '<path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/>',
+  edit: '<path d="M12 20h9"/><path d="M16.4 3.6a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',
   pen: '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',
   mic: '<rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10v1a7 7 0 0 1-14 0v-1"/><path d="M12 18v4"/>',
   chat: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
@@ -257,7 +258,7 @@ function applyTheme() {
   r.style.setProperty("--hero", `linear-gradient(135deg, color-mix(in srgb, ${th.c} 55%, #000) 0%, ${th.c} 45%, ${th.c2} 100%)`);
 }
 const NAV = [
-  ["Studio", [["", "home", "Oggi"], ["lezioni", "book", "Lezioni"], ["dizionario", "library", "Vocabolario"], ["pratica", "layers", "Esercizi"], ["dettato", "pen", "Dettato"]]],
+  ["Studio", [["", "home", "Oggi"], ["lezioni", "book", "Lezioni"], ["dizionario", "library", "Vocabolario"], ["pratica", "layers", "Esercizi"], ["scrittura", "edit", "Scrittura"], ["dettato", "pen", "Dettato"]]],
   ["Intelligenza artificiale", [["tutor", "chat", "Tutor IA"], ["lab", "sparkles", "Allenamento IA"]]],
   ["Esame", [["esame", "grad", "Simulazioni Goethe"]]],
   ["Tu", [["progressi", "chart", "Progressi"], ["premi", "trophy", "Premi e traguardi"], ["impostazioni", "settings", "Impostazioni"]]]
@@ -282,7 +283,7 @@ function route() {
   if ("speechSynthesis" in window) speechSynthesis.cancel();
   const R = { lezioni: lessonsList, lezione: () => lesson(a), dizionario: () => dictionary(a), pratica: practice, flash: () => flashcards(a), quiz: () => quiz(a),
     memory: () => memory(a), dettato: () => dictation(a, b), ascolto: listening, parla: () => speaking(a), dialoghi: dialoguesList, dialogo: () => dialogue(a),
-    tutor, lab: () => lab(a), prep: () => prepHub(a, b), verbi: () => b2Hub(a), partizip: () => p2Hub(a, b), casi: () => casiHub(a), preposizioni: () => preposHub(a), connettori: () => konnHub(a), esame: () => exam(a, b), progressi: progress, premi: rewards, impostazioni: settings };
+    tutor, lab: () => lab(a), prep: () => prepHub(a, b), verbi: () => b2Hub(a), partizip: () => p2Hub(a, b), casi: () => casiHub(a), preposizioni: () => preposHub(a), connettori: () => konnHub(a), scrittura: () => sxHub(a, b), esame: () => exam(a, b), progressi: progress, premi: rewards, impostazioni: settings };
   (R[p] || home)();
 }
 
@@ -348,6 +349,7 @@ function home() {
     </div>
     <div class="sec"><h3>Con l'intelligenza artificiale</h3></div>
     <div class="mods">
+      ${mod("scrittura", "edit", "Scrittura con correzione", "Scrivi un testo, Gemini lo corregge e lo spiega", "#e8590c")}
       ${mod("tutor", "chat", "Tutor IA", "Conversazione a voce con correzioni", "#bf5af2")}
       ${mod("lab", "sparkles", "Allenamento IA", "Esercizi sempre nuovi su misura", "#d6336c")}
       ${mod("esame", "grad", "Simulazione Goethe " + S.level, "Tutti i moduli e le parti, con cronometro", "#b8860b")}
@@ -754,16 +756,16 @@ function emptyState(title, msg) { view(title, `<div class="card empty">${ic("inf
 // Piano gratuito (verificato nov 2026): flash-lite ~500 richieste/giorno; 3.8-flash ~20/giorno → solo per valutazioni, con ripiego.
 const MODEL_FAST = "gemini-3.5-flash-lite", MODEL_PRO = "gemini-3.8-flash";
 const GEN_SYS = "Du bist Autorin offizieller Prüfungsmaterialien des Goethe-Instituts und erfahrene DaF-Lehrerin. Erstelle authentische, sprachlich fehlerfreie, abwechslungsreiche Materialien. Die richtige Antwort soll zufällig auf die Optionen verteilt sein. Erklärungen für die Lernende (Italienerin) auf Italienisch. Antworte ausschließlich mit gültigem JSON ohne Markdown.";
-async function gemini(msgs, sys, json, pro) {
+async function gemini(msgs, sys, json, pro, temp) {
   if (!S.gkey) throw new Error("NOKEY");
   if (!navigator.onLine) throw new Error("OFFLINE");
-  if (pro) { try { return await geminiCall(S.gmodelPro || MODEL_PRO, msgs, sys, json); } catch (e) { if (!/429|quota|exhausted|404|not found|503|overloaded/i.test(e.message)) throw e; } }
-  try { return await geminiCall(S.gmodel || MODEL_FAST, msgs, sys, json); }
-  catch (e) { if (/503|overloaded|unavailable/i.test(e.message)) { await new Promise(r => setTimeout(r, 1500)); return geminiCall(S.gmodel || MODEL_FAST, msgs, sys, json); } throw e; }
+  if (pro) { try { return await geminiCall(S.gmodelPro || MODEL_PRO, msgs, sys, json, temp); } catch (e) { if (!/429|quota|exhausted|404|not found|503|overloaded/i.test(e.message)) throw e; } }
+  try { return await geminiCall(S.gmodel || MODEL_FAST, msgs, sys, json, temp); }
+  catch (e) { if (/503|overloaded|unavailable/i.test(e.message)) { await new Promise(r => setTimeout(r, 1500)); return geminiCall(S.gmodel || MODEL_FAST, msgs, sys, json, temp); } throw e; }
 }
-async function geminiCall(model, msgs, sys, json) {
+async function geminiCall(model, msgs, sys, json, temp) {
   const contents = typeof msgs === "string" ? [{ role: "user", parts: [{ text: msgs }] }] : msgs.map(m => ({ role: m.role, parts: [{ text: m.text }] }));
-  const body = { contents, systemInstruction: { parts: [{ text: sys }] }, generationConfig: { temperature: json ? 0.9 : 0.8 } };
+  const body = { contents, systemInstruction: { parts: [{ text: sys }] }, generationConfig: { temperature: temp ?? (json ? 0.9 : 0.8) } };
   if (json) body.generationConfig.responseMimeType = "application/json";
   const ctl = new AbortController(), to = setTimeout(() => ctl.abort(), 60000);
   let r;
@@ -900,7 +902,7 @@ function lab(kind) {
       ${mod("lab/lesen", "file", "Lettura", "Testo autentico + domande", "#0071e3")}
       ${mod("lab/hoeren", "headphones", "Ascolto", "Dialoghi a più voci + domande", "#0d9488")}
       ${mod("lab/grammatik", "layers", "Grammatica", "Esercizi mirati su 18 argomenti", "#5e5ce6")}
-      ${mod("lab/schreiben", "pen", "Scrittura con voto", "Compito Goethe + correzione", "#e8590c")}
+      ${mod("scrittura", "edit", "Scrittura", "Tracce Goethe/telc, correzione e storico", "#e8590c")}
       ${mod("lab/wortschatz", "library", "Lessico per tema", "12 parole nuove nel tuo mazzo", "#30b06a")}
       ${mod("lab/fehler", "refresh", "Ripasso errori", "Esercizi sui tuoi errori", "#ff375f")}
       ${mod("dettato/ia", "pen", "Dettato IA", "Testi nuovi da trascrivere", "#b8860b")}
