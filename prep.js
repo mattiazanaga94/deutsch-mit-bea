@@ -400,7 +400,7 @@ function runCloze(title, items, opt = {}) {
       gaps.forEach(g => { const good = !reveal && gapOK(g.value, g.dataset.g); if (good) ok++; g.classList.add(good ? "ok" : "bad"); g.disabled = true; if (!good) { g.insertAdjacentHTML("afterend", `<span class="gapsol">${esc(gapAns(g.dataset.g)[0])}</span>`); } });
       score += ok; total += gaps.length;
       const all = ok === gaps.length;
-      if (it.v) (it.p2 ? p2Mark : it.b2 ? b2Mark : pvMark)(it.v, all);
+      if (it.mark) it.mark(all); else if (it.v) (it.p2 ? p2Mark : it.b2 ? b2Mark : pvMark)(it.v, all);
       if (!all) wrong.push(it);
       const full = it.s.replace(/\{([^}|]+)[^}]*\}/g, "$1");
       const fb = $("fb"); fb.className = "feedback " + (all ? "ok" : "bad");
